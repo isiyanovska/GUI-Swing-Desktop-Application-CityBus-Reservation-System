@@ -1,36 +1,37 @@
 package Avtobus;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
+import java.awt.EventQueue;
 import java.awt.Font;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.border.BevelBorder;
-import javax.swing.JComboBox;
-
-
-import com.toedter.calendar.JDateChooser;
-import javax.swing.JButton;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.awt.event.ActionEvent;
+
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.SoftBevelBorder;
+
+import com.toedter.calendar.JDateChooser;
 public class Linija extends JFrame {
 
 	private JPanel contentPane;
     Connection con;
     PreparedStatement pst;
+    ResultSet rs;
     
 
 
@@ -54,6 +55,8 @@ public class Linija extends JFrame {
 	 * Create the frame.
 	 */
 	public Linija() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage("D:\\eclipse_workspace\\GradskiPrevoz\\img\\red bus.png"));
+		setTitle("Возен ред Битола");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 290, 307);
@@ -81,9 +84,9 @@ public class Linija extends JFrame {
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 		
-		JLabel lblNewLabel_1 = new JLabel("Линија бр");
+		JLabel lblNewLabel_1 = new JLabel("Линија број");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNewLabel_1.setBounds(32, 31, 62, 14);
+		lblNewLabel_1.setBounds(27, 31, 67, 14);
 		panel_1.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Дата");
@@ -107,8 +110,9 @@ public class Linija extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/_bus_db","root","");
+				Class.forName("org.h2.Driver");
+				con = DriverManager.getConnection("jdbc:h2:./data/test","root","");
+				System.out.println("Database created");
 				
 				String busNo = txtBus.getSelectedItem().toString();
 				SimpleDateFormat Date_Format = new SimpleDateFormat("yyyy-MM-dd");
@@ -116,17 +120,11 @@ public class Linija extends JFrame {
 				
 				for(int i= 1; i<=30; i++) {
 					
-				
 					int seats = i;
 					String status = "unbooked";
 					
-					pst = con.prepareStatement("INSERT INTO _booking_bus(BusNo,Seat,Date,Status)values(?,?,?,?);");
-					pst.setString(1,busNo);
-					pst.setInt(2,seats);
-					pst.setString(3,date);
-					pst.setString(4,status);
+					pst = con.prepareStatement("INSERT INTO _booking_bus(busno,seat,date,status) values("+busNo+","+seats+",'"+date+"','"+status+"');");
 					pst.executeUpdate();
-					
 				}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -137,7 +135,6 @@ public class Linija extends JFrame {
 				}
 				JOptionPane.showMessageDialog(contentPane,"Автобуската линија е успешно додадена!");
 				}
-			
 		});
 			
 		
@@ -148,6 +145,9 @@ public class Linija extends JFrame {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
+				VozenRed vr = new VozenRed();
+				vr.setVisible(true);
+				vr.setLocationRelativeTo(null);
 
 			}
 		});

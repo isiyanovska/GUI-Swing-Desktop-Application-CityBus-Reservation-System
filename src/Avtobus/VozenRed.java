@@ -1,22 +1,19 @@
 package Avtobus;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
-import javax.swing.JLabel;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
-
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 public class VozenRed extends JFrame {
 
@@ -32,6 +29,7 @@ public class VozenRed extends JFrame {
 					VozenRed frame = new VozenRed();
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -43,6 +41,7 @@ public class VozenRed extends JFrame {
 	 * Create the frame.
 	 */
 	public VozenRed() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage("D:\\eclipse_workspace\\GradskiPrevoz\\img\\red bus.png"));
 		setTitle("Возен ред Битола");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 418, 307);
@@ -70,6 +69,7 @@ public class VozenRed extends JFrame {
 				Linija s = new Linija();
 				s.setVisible(true);
 				s.setLocationRelativeTo(null);
+				setVisible(false);
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -81,7 +81,8 @@ public class VozenRed extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			    Bilet b = new  Bilet();
 				b.setVisible(true);
-				b.setLocationRelativeTo(null);
+				b.setExtendedState(JFrame.MAXIMIZED_BOTH);
+				setVisible(false);
 			}
 		});
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 14));
